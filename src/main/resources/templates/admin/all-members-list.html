@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Members</title>
+  <!-- Bootstrap 5 CDN link -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="mb-4">List of All Members</h1>
+
+  <!-- Table for displaying members -->
+  <table class="table table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Display message if there are no members -->
+    <tr th:if="${#lists.isEmpty(members)}">
+      <td colspan="3" class="text-center">No members available</td>
+    </tr>
+
+    <!-- Loop through members to display them in the table -->
+    <tr th:each="member : ${members}">
+      <td th:text="${member.username}"></td>
+      <td th:text="${member.email}"></td>
+      <td>
+        <a th:href="@{/admin/edit-member/{id}(id=${member.id})}" class="btn btn-primary btn-sm">Edit</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Button to go back to dashboard -->
+  <div class="mt-4">
+    <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js (for functionality like tooltips, modals) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

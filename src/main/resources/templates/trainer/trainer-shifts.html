@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Shifts</title>
+    <!-- Bootstrap 5 CDN link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Trainer Shifts</h1>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Day</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="shift : ${shifts}">
+            <td th:text="${shift.startTime}"></td>
+            <td th:text="${shift.endTime}"></td>
+            <td th:text="${shift.dayOfWeek}"></td>
+            <td>
+                <!-- You can add actions like Edit/Delete here -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a th:href="@{/admin/trainer/{trainerId}/add-shift(trainerId=${trainerId})}" class="btn btn-primary">Add New Shift</a>
+        <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

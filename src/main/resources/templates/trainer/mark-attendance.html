@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mark Attendance for Shift</title>
+
+  <!-- Bootstrap 4 (CDN) -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Optional: Add the Bootstrap JS and dependencies (for full functionality, e.g., for modals, dropdowns, etc.) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- jQuery for AJAX -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+<!-- Container to hold the content -->
+<div class="container mt-5">
+
+  <!-- Heading for the attendance form -->
+  <h2 class="mb-4">Mark Attendance for Shift: <span th:text="${shift.startTime}"></span></h2>
+
+  <!-- Form to submit attendance -->
+  <form th:action="@{/trainer/mark-attendance/{shiftId}(shiftId=${shift.id})}" method="post">
+    <div th:each="user : ${members}">
+      <p>
+        <span th:text="${user.username}">User Name</span>
+        <button type="button" th:data-user-id="${user.id}" class="attendance-btn present-btn btn btn-success"
+                th:text="'Mark Present'">Mark Present</button>
+        <button type="button" th:data-user-id="${user.id}" class="attendance-btn absent-btn btn btn-danger"
+                th:text="'Mark Absent'">Mark Absent</button>
+      </p>
+    </div>
+  </form>
+
+  <!-- Optional: Link to go back to dashboard -->
+  <div class="mt-4">
+    <a th:href="@{/trainer/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+
+</div> <!-- End of container -->
+
+<!-- AJAX script to handle button clicks -->
+<script>
+  function updateAttendance(userId, status) {
+    var attendanceData = {};  // Initialize an empty object to store attendance data
+    attendanceData[userId] = (status === 'present');  // Convert 'present' to true, 'absent' to false
+
+    $.ajax({
+      url: '/trainer/mark-attendance/' + shiftId,  // Make sure the URL is correct and includes the shiftId
+      method: 'POST',
+      contentType: 'application/json',  // Specify the content type as JSON
+      data: JSON.stringify(attendanceData),  // Convert the data to JSON string
+      success: function(response) {
+        alert('Attendance updated for user ' + userId + ' as ' + status);
+        // Optionally, you can update the UI here (e.g., change the button text)
+      },
+      error: function(xhr, status, error) {
+        alert('Error updating attendance. Please try again.');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
